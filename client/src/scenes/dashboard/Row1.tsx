@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import DashboardBox from '@/components/DashboardBox'
 import React from 'react'
+import DashboardBox from '@/components/DashboardBox'
+import { useGetKpisQuery } from '@/state/api'
+
 
 
 const Row1 = () => {
-  return (
+
+  const { data } =useGetKpisQuery
+  return ( 
   <>
       <DashboardBox bgcolor="white" gridArea="a"></DashboardBox>
       <DashboardBox bgcolor="white" gridArea="b"></DashboardBox>
