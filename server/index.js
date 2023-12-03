@@ -5,8 +5,11 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import dbConnect from "./database/db.d.js";
+import KPI from "./models/KPI.js"
+import {kpis} from "./data/data.js"
 import { URL } from 'url';
+import { error } from 'console';
+
 
 // Configuration
 dotenv.config();
@@ -27,26 +30,13 @@ console.log('hello');
 
 // Mongoose setup
 
-const port = process.env.PORT || 9000;
-const DB_URL = process.env.MONGO_URL;
+const PORT = process.env.PORT || 9000;
 
-mongoose.connect(DB_URL, {
-});
-
-const conn = mongoose.connection;
-
-conn.once('open', () => {
-    console.log("Successfully connected to the database");
-});
-
-conn.on('error', (error) => {
-    console.log('Failed to connect to the database:', error.message);
-});
-
-// Your additional code goes here
-// ...
-
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+mongoose.connect(process.env.MONGO_URL,{
+})
+.then(async ()=>{
+    app.listen(PORT,()=> console.log(`Server is running on http://localhost:${PORT}`));
+    await mongoose.connection.db.dropDatabase();
+    KPI.insertMany(kpis);
+})
+.catch((error)=>console.log(`${error} did not connect`))
