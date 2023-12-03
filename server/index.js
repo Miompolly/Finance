@@ -9,6 +9,7 @@ import KPI from "./models/KPI.js"
 import {kpis} from "./data/data.js"
 import { URL } from 'url';
 import { error } from 'console';
+import KpiRoutes from './routes/kpi.js';
 
 
 // Configuration
@@ -32,11 +33,32 @@ console.log('hello');
 
 const PORT = process.env.PORT || 9000;
 
-mongoose.connect(process.env.MONGO_URL,{
-})
-.then(async ()=>{
-    app.listen(PORT,()=> console.log(`Server is running on http://localhost:${PORT}`));
-    await mongoose.connection.db.dropDatabase();
-    KPI.insertMany(kpis);
-})
-.catch((error)=>console.log(`${error} did not connect`))
+// mongoose.connect(process.env.MONGO_URL,{
+// })
+// .then(async ()=>{
+//     app.listen(PORT,()=> console.log(`Server is running on http://localhost:${PORT}`));
+//     // await mongoose.connection.db.dropDatabase();
+//     // KPI.insertMany(kpis);
+// })
+// .catch((error)=>console.log(`${error} did not connect`))
+
+app.use("/kpi",KpiRoutes);
+
+const DB_URL = process.env.MONGO_URL;
+
+mongoose.connect(DB_URL, {
+});
+
+const conn = mongoose.connection;
+
+conn.once('open', () => {
+    console.log("Successfully connected to the database");
+});
+
+conn.on('error', (error) => {
+    console.log('Failed to connect to the database:', error.message);
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

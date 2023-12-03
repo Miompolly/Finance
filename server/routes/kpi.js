@@ -1,5 +1,5 @@
 import express from "express";
-import KPI from "../models/KPI"; 
+import KPI from "../models/KPI.js"; 
 const KpiRoutes = express.Router();
 
 KpiRoutes.get("/kpis", async (req, res) => {
