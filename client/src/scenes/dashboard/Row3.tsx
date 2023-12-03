@@ -4,13 +4,12 @@ import React from 'react'
 
 const Row3 = () => {
   return (
-  <>
-  
+    <>
       <DashboardBox bgcolor="white" gridArea="g"></DashboardBox>
       <DashboardBox bgcolor="white" gridArea="h"></DashboardBox>
       <DashboardBox bgcolor="white" gridArea="i"></DashboardBox>
       <DashboardBox bgcolor="white" gridArea="j"></DashboardBox>
-  </>
+    </>
   )
 }
 

@@ -1,9 +1,8 @@
 import React from 'react'
-import { Box, useMediaQuery } from '@mui/material';
-import Row1 from './Row1';
-import Row2 from './Row2';
-import Row3 from './Row3';
-
+import { Box, useMediaQuery } from '@mui/material'
+import Row1 from './Row1'
+import Row2 from './Row2'
+import Row3 from './Row3'
 
 const gridTemplateLargeScreens = `
 "a b c"
@@ -52,7 +51,7 @@ const gridTemplateSmallScreens = `
 `
 const Dashboard = () => {
   const isAboveMediumScreens = useMediaQuery('(min-width:1200px)')
-    return (
+  return (
     <Box
       width="100%"
       height="100%"
@@ -72,11 +71,9 @@ const Dashboard = () => {
             }
       }
     >
-     <Row1/>
-     <Row2/>
-     <Row3/>
-    
-    
+      <Row1 />
+      <Row2 />
+      <Row3 />
     </Box>
   )
 }
