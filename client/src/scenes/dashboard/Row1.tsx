@@ -1,24 +1,34 @@
-import React, { useMemo } from 'react';
-import DashboardBox from '@/components/DashboardBox';
-import { useGetKpisQuery } from '@/state/api';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useMemo } from 'react'
+import DashboardBox from '@/components/DashboardBox'
+import { useGetKpisQuery } from '@/state/api'
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
+import { useTheme } from '@emotion/react'
 
 const Row1 = () => {
   const { data, isLoading, isError } = useGetKpisQuery();
-  
-  console.log("data :", data);
+  const {palette} =useTheme();
+
+  console.log('data :', data)
 
   const revenueExpenses = useMemo(() => {
     if (isLoading || isError || !data) {
-      return null; // Handle loading or error state
+      return null // Handle loading or error state
     }
 
     return data[0]?.monthlyData.map(({ month, revenue, expenses }) => ({
       name: month.substring(0, 3),
-      revenue,
-      expenses,
-    }));
-  }, [data, isLoading, isError]);
+      revenue:revenue,
+      expenses: expenses,
+    }))
+  }, [data, isLoading, isError])
 
   return (
     <>
@@ -27,7 +37,7 @@ const Row1 = () => {
           <AreaChart
             width={500}
             height={400}
-            data={revenueExpenses} 
+            data={revenueExpenses}
             margin={{
               top: 10,
               right: 30,
@@ -35,18 +45,58 @@ const Row1 = () => {
               bottom: 0,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+          <defs>
+<linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+  <stop 
+  offset="5%"
+  stopColor={palette.primary[300]}
+  stopOpacity={0.5}/>
+  <stop 
+  offset="95%"
+  stopColor={palette.primary[300]}
+  stopOpacity={0}/>
+</linearGradient>
+<linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+  <stop 
+  offset="5%"
+  stopColor={palette.primary[300]}
+  stopOpacity={0.5}/>
+  <stop 
+  offset="95%"
+  stopColor={palette.primary[300]}
+  stopOpacity={0}/>
+</linearGradient>
+
+
+          </defs>
+            <XAxis dataKey="name" tickLine={false} style={{fontSize:"10px"}}/>
+            <YAxis  tickLine={false} style={{fontSize:"10px"}} axisLine={{strokeWidth:"0"}} 
+            domain={[8000,23000]}
+            />
             <Tooltip />
-            <Area type="monotone" dataKey="revenue" stroke="#8884d8" fill="#8884d8" />
+            <Area
+              type="monotone"
+              dataKey="revenue"
+              dot={true}
+              stroke={palette.primary.main}
+              fillOpacity={1}
+              fill="url(#colorRevenue"
+            />
+            <Area
+              type="monotone"
+              dataKey="expenses"
+              dot={true}
+              stroke={palette.primary.main}
+              fillOpacity={1}
+              fill="url(#colorRevenue"
+            />
           </AreaChart>
         </ResponsiveContainer>
       </DashboardBox>
       <DashboardBox bgcolor="white" gridArea="b"></DashboardBox>
       <DashboardBox bgcolor="white" gridArea="c"></DashboardBox>
     </>
-  );
+  )
 }
 
-export default Row1;
+export default Row1
