@@ -14,7 +14,9 @@ import {
   Bar,
   Line,
   ResponsiveContainer,
-  Rectangle,
+  ComposedChart,
+  Scatter,
+  
 } from 'recharts'
 import { useTheme } from '@emotion/react'
 import BoxHeader from '@/components/BoxHeader'
@@ -46,24 +48,86 @@ const Row1 = () => {
     return data[0]?.monthlyData.map(({ month, revenue, expenses }) => ({
       name: month.substring(0, 3),
       revenue: revenue,
-      profit:revenue - expenses
+      profit:(revenue - expenses).toFixed(2)
     }))
   }, [data, isLoading, isError])
 
 
-  const revenue = useMemo(() => {
+  const profitExpensesRevenue = useMemo(() => {
     if (isLoading || isError || !data) {
       return null // Handle loading or error state
     }
 
-    return data[0]?.monthlyData.map(({ month, revenue }) => ({
+    return data[0]?.monthlyData.map(({ month, revenue, expenses }) => ({
       name: month.substring(0, 3),
       revenue: revenue,
-    
+      expenses:expenses,
+      profit:(revenue - expenses).toFixed(2)
     }))
   }, [data, isLoading, isError])
 
 
+
+  const revenue = useMemo(() => {
+    return (
+      data &&
+      data[0].monthlyData.map(({ month, revenue }) => {
+        return {
+          name: month.substring(0, 3),
+          revenue: revenue,
+        };
+      })
+    );
+  }, [data]);
+
+
+
+  const dataa = [
+    {
+      name: 'Page A',
+      uv: 590,
+      pv: 800,
+      amt: 1400,
+      cnt: 490,
+    },
+    {
+      name: 'Page B',
+      uv: 868,
+      pv: 967,
+      amt: 1506,
+      cnt: 590,
+    },
+    {
+      name: 'Page C',
+      uv: 1397,
+      pv: 1098,
+      amt: 989,
+      cnt: 350,
+    },
+    {
+      name: 'Page D',
+      uv: 1480,
+      pv: 1200,
+      amt: 1228,
+      cnt: 480,
+    },
+    {
+      name: 'Page E',
+      uv: 1520,
+      pv: 1108,
+      amt: 1100,
+      cnt: 460,
+    },
+    {
+      name: 'Page F',
+      uv: 1400,
+      pv: 680,
+      amt: 1700,
+      cnt: 380,
+    },
+  ];
+  
+  
 
   return (
     <>
@@ -195,36 +259,54 @@ const Row1 = () => {
       </DashboardBox>
       <DashboardBox bgcolor="white" gridArea="c" style={{ height: '300px' }}>
         <BoxHeader
-          title="Revenue Month by Month"
+          title="Revenue,Expenses and Profit Month by Month"
           subtitle="Graph is representing Revenue Month by Month"
           sideText="+4%"
-        />
+        /> 
+   
    <ResponsiveContainer width="100%" height="100%">
-  <BarChart
-    width={500}
-    height={300}
-    data={revenue}
-    margin={{
-      top: 17,
-      right: 35,
-      left: -38,
-      bottom: 60,
-    }}
-  >
-    <defs>
-      <linearGradient id="colorRevenue">
-        <stop offset="5%" stopColor={palette.primary[300]} stopOpacity={0.8} />
-        <stop offset="95%" stopColor={palette.primary[300]} stopOpacity={0} />
-      </linearGradient>
-    </defs>
-    <CartesianGrid vertical={false} stroke={palette.grey[800]} />
-    <XAxis dataKey="name" axisLine={false} tickLine={false} style={{ fontSize: "10px" }} />
-    <YAxis axisLine={false} tickLine={false} style={{ fontSize: "10px" }} />
-    <Tooltip />
-    <Bar dataKey="Revenue" fill="url(#colorRevenue)" />
-  </BarChart>
-</ResponsiveContainer>
-
+          <ComposedChart
+            width={500}
+            height={400}
+            data={profitExpensesRevenue} 
+            margin={{
+              top: 10,
+              right: 20,
+              bottom: 60,
+              left: -10,
+            }}
+          >
+            <defs>
+                <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor={palette.primary[300]}
+                  stopOpacity={0.5}
+                />
+                <stop
+                  offset="95%"
+                  stopColor={palette.primary[300]}
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
+            <CartesianGrid stroke={palette.grey[800]} vertical={false}/>
+            <XAxis dataKey="name" scale="band" tickLine={false}
+              style={{ fontSize: '10px' }}
+              axisLine={false}/>
+          
+          <YAxis
+              tickLine={false}
+              style={{ fontSize: '10px' }}
+              axisLine={false}
+            />
+            <Legend  height={20} wrapperStyle={{ margin: '0 0 10px 0' }}/>
+            <Area type="monotone" dataKey="revenue" fill="url(#colorExpenses)"  />
+            <Bar dataKey="expenses" barSize={20} fill="url(#colorExpenses)" />
+            <Line type="monotone" dataKey="profit" stroke="#ff7300" />
+         
+          </ComposedChart>
+        </ResponsiveContainer>
       </DashboardBox>
     </>
   )
