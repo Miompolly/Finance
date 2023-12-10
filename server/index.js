@@ -6,10 +6,12 @@ import mongoose from 'mongoose';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import KPI from "./models/KPI.js"
-import {kpis} from "./data/data.js"
+import {kpis,products} from "./data/data.js"
 import { URL } from 'url';
 import { error } from 'console';
 import KpiRoutes from './routes/kpi.js';
+import Product from "./models/Product.js"
+import productRoutes from './routes/product.js';
 
 
 // Configuration
@@ -38,11 +40,13 @@ const PORT = process.env.PORT || 9000;
 // .then(async ()=>{
 //     app.listen(PORT,()=> console.log(`Server is running on http://localhost:${PORT}`));
 //     // await mongoose.connection.db.dropDatabase();
-//     // KPI.insertMany(kpis);
+//     KPI.insertMany(kpis);
+//     // Product.insertMany(products);
 // })
 // .catch((error)=>console.log(`${error} did not connect`))
 
 app.use("/kpi",KpiRoutes);
+app.use("/product",productRoutes);
 
 const DB_URL = process.env.MONGO_URL;
 

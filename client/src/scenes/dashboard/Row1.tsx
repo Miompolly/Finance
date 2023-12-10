@@ -82,53 +82,6 @@ const Row1 = () => {
 
 
 
-  const dataa = [
-    {
-      name: 'Page A',
-      uv: 590,
-      pv: 800,
-      amt: 1400,
-      cnt: 490,
-    },
-    {
-      name: 'Page B',
-      uv: 868,
-      pv: 967,
-      amt: 1506,
-      cnt: 590,
-    },
-    {
-      name: 'Page C',
-      uv: 1397,
-      pv: 1098,
-      amt: 989,
-      cnt: 350,
-    },
-    {
-      name: 'Page D',
-      uv: 1480,
-      pv: 1200,
-      amt: 1228,
-      cnt: 480,
-    },
-    {
-      name: 'Page E',
-      uv: 1520,
-      pv: 1108,
-      amt: 1100,
-      cnt: 460,
-    },
-    {
-      name: 'Page F',
-      uv: 1400,
-      pv: 680,
-      amt: 1700,
-      cnt: 380,
-    },
-  ];
-  
-  
-
   return (
     <>
       <DashboardBox bgcolor="white" gridArea="a" style={{ height: '400px' }}>
@@ -259,8 +212,8 @@ const Row1 = () => {
       </DashboardBox>
       <DashboardBox bgcolor="white" gridArea="c" style={{ height: '300px' }}>
         <BoxHeader
-          title="Revenue,Expenses and Profit Month by Month"
-          subtitle="Graph is representing Revenue Month by Month"
+          title="Revenue,Expenses and Profit "
+          subtitle="Graph is representing Revenue,Expenses and Profit Month by Month"
           sideText="+4%"
         /> 
    
@@ -272,7 +225,7 @@ const Row1 = () => {
             margin={{
               top: 10,
               right: 20,
-              bottom: 60,
+              bottom: 70,
               left: -10,
             }}
           >
@@ -300,9 +253,10 @@ const Row1 = () => {
               style={{ fontSize: '10px' }}
               axisLine={false}
             />
+            <Tooltip />
             <Legend  height={20} wrapperStyle={{ margin: '0 0 10px 0' }}/>
             <Area type="monotone" dataKey="revenue" fill="url(#colorExpenses)"  />
-            <Bar dataKey="expenses" barSize={20} fill="url(#colorExpenses)" />
+            <Bar type="monotone" dataKey="expenses"  fill="url(#colorExpenses)" />
             <Line type="monotone" dataKey="profit" stroke="#ff7300" />
          
           </ComposedChart>
