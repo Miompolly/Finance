@@ -3,7 +3,7 @@ import { GetKpisResponse, GetProductsResponse } from './types'
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   reducerPath: 'main',
-  tagTypes: ['Kpis','Products'],
+  tagTypes: ['Kpis', 'Products'],
   endpoints: (build) => ({
     getKpis: build.query<Array<GetKpisResponse>, void>({
       query: () => 'kpi/kpis/',
@@ -16,4 +16,4 @@ export const api = createApi({
   }),
 })
 
-export const { useGetKpisQuery,useGetProductsQuery } = api
+export const { useGetKpisQuery, useGetProductsQuery } = api

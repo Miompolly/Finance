@@ -30,15 +30,12 @@ export interface GetKpisResponse {
 }
 
 export interface GetProductsResponse {
+  map(arg0: ({ _id, price, expense }: { _id: any; price: any; expense: any }) => { id: any; price: any; expense: any }): any
   id: string
   _id: string
-  price: number;
-  expense: number;
-  transactions: Array<string>;
-  createdAt: string;
-  updateAt: string;
- 
+  price: number
+  expense: number
+  transactions: Array<string>
+  createdAt: string
+  updateAt: string
 }
-
-
-

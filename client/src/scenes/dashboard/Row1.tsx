@@ -16,7 +16,6 @@ import {
   ResponsiveContainer,
   ComposedChart,
   Scatter,
-  
 } from 'recharts'
 import { useTheme } from '@emotion/react'
 import BoxHeader from '@/components/BoxHeader'
@@ -39,7 +38,6 @@ const Row1 = () => {
     }))
   }, [data, isLoading, isError])
 
-
   const profitRevenue = useMemo(() => {
     if (isLoading || isError || !data) {
       return null // Handle loading or error state
@@ -48,10 +46,9 @@ const Row1 = () => {
     return data[0]?.monthlyData.map(({ month, revenue, expenses }) => ({
       name: month.substring(0, 3),
       revenue: revenue,
-      profit:(revenue - expenses).toFixed(2)
+      profit: (revenue - expenses).toFixed(2),
     }))
   }, [data, isLoading, isError])
-
 
   const profitExpensesRevenue = useMemo(() => {
     if (isLoading || isError || !data) {
@@ -61,12 +58,10 @@ const Row1 = () => {
     return data[0]?.monthlyData.map(({ month, revenue, expenses }) => ({
       name: month.substring(0, 3),
       revenue: revenue,
-      expenses:expenses,
-      profit:(revenue - expenses).toFixed(2)
+      expenses: expenses,
+      profit: (revenue - expenses).toFixed(2),
     }))
   }, [data, isLoading, isError])
-
-
 
   const revenue = useMemo(() => {
     return (
@@ -75,12 +70,10 @@ const Row1 = () => {
         return {
           name: month.substring(0, 3),
           revenue: revenue,
-        };
+        }
       })
-    );
-  }, [data]);
-
-
+    )
+  }, [data])
 
   return (
     <>
@@ -215,13 +208,13 @@ const Row1 = () => {
           title="Revenue,Expenses and Profit "
           subtitle="Graph is representing Revenue,Expenses and Profit Month by Month"
           sideText="+4%"
-        /> 
-   
-   <ResponsiveContainer width="100%" height="100%">
+        />
+
+        <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             width={500}
             height={400}
-            data={profitExpensesRevenue} 
+            data={profitExpensesRevenue}
             margin={{
               top: 10,
               right: 20,
@@ -230,7 +223,7 @@ const Row1 = () => {
             }}
           >
             <defs>
-                <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
                   stopColor={palette.primary[300]}
@@ -243,22 +236,33 @@ const Row1 = () => {
                 />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke={palette.grey[800]} vertical={false}/>
-            <XAxis dataKey="name" scale="band" tickLine={false}
+            <CartesianGrid stroke={palette.grey[800]} vertical={false} />
+            <XAxis
+              dataKey="name"
+              scale="band"
+              tickLine={false}
               style={{ fontSize: '10px' }}
-              axisLine={false}/>
-          
-          <YAxis
+              axisLine={false}
+            />
+
+            <YAxis
               tickLine={false}
               style={{ fontSize: '10px' }}
               axisLine={false}
             />
             <Tooltip />
-            <Legend  height={20} wrapperStyle={{ margin: '0 0 10px 0' }}/>
-            <Area type="monotone" dataKey="revenue" fill="url(#colorExpenses)"  />
-            <Bar type="monotone" dataKey="expenses"  fill="url(#colorExpenses)" />
+            <Legend height={20} wrapperStyle={{ margin: '0 0 10px 0' }} />
+            <Area
+              type="monotone"
+              dataKey="revenue"
+              fill="url(#colorExpenses)"
+            />
+            <Bar
+              type="monotone"
+              dataKey="expenses"
+              fill="url(#colorExpenses)"
+            />
             <Line type="monotone" dataKey="profit" stroke="#ff7300" />
-         
           </ComposedChart>
         </ResponsiveContainer>
       </DashboardBox>
